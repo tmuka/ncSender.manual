@@ -110,7 +110,7 @@ This decides what is left in the middle.
 
 | Cut Type | What it does |
 |---|---|
-| **Inner (perimeter)** | Cuts just inside the line. On a through cut the middle falls out as one piece. This is the default. |
+| **Inner (perimeter)** | Cuts just inside the line. On a through cut the middle falls out as one piece. |
 | **Inner (clearing)** | Clears the whole inside, so a pocket comes out flat-bottomed. |
 | **Outer (part)** | Cuts just outside the line, freeing the shape from the stock. |
 
@@ -249,9 +249,11 @@ and lifts out at the hole, since its head can only leave through the hole.
 
 ![QuickCut, Keyhole tab](../assets/images/plugins/quickcut-keyhole.webp)
 
-- Set **Bit Diameter** to the bit's head diameter. Changing it sets **Slot
-  Length** to 1.5 times the bit.
+- Set **Bit Diameter** to the bit's head diameter.
 - **Slot Length**: from the centre of the hole to the centre of the slot's end.
+  The menu on its label switches to **Slot Ratio**, a multiple of the Bit
+  Diameter (1.5 to start), so the slot follows the bit when you change it.
+  A Slot Length stays as typed. Switching converts the number.
 - **Slot Angle (°)**: the direction the slot runs, counter-clockwise from +X.
   90 runs toward the back. You can also drag on the preview to turn the slot.
 - **Total Depth**: to the bottom of the head. There's no Depth of Cut: the slot
@@ -297,10 +299,14 @@ Pick a **Mode**:
 | **Wasteboard Surfacing** | Top of the spoilboard | Flatten the whole machine bed |
 
 **Wasteboard Surfacing** reads your machine's travel from the controller and
-covers the whole work area, so there is no size to enter. If a keepout zone is
+covers the whole work area, so there is no size to enter. It works out where
+that travel is in machine coordinates from grblHAL's homing settings, so it
+suits machines whose coordinates run from 0 up and machines whose coordinates
+run negative, the usual grbl setup. The hint under Mode shows the range. If a keepout zone is
 on, ncSender Pro's (Settings › Advanced) or an ATCi tool rack's, an **Avoid
 Keepout Zone** switch appears beside Mode. With it on, the surfacing leaves
-out each zone plus the bit radius and flattens the rest of the bed.
+out each zone plus the bit radius and flattens the rest of the bed, lifting to
+the safe height before moving across a zone.
 
 For the other modes, set:
 

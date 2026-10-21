@@ -115,8 +115,13 @@ This decides what is left in the middle.
 | **Outer (part)** | Cuts just outside the line, freeing the shape from the stock. |
 
 If a hole comes out with a post in the middle, you picked **Inner (perimeter)**
-where you wanted **Inner (clearing)**. The preview hatches the area that is
-cleared or cut away.
+where you wanted **Inner (clearing)**.
+
+In the preview the solid outline is the size you typed. For
+**Inner (perimeter)** and **Outer (part)**, a fainter dashed line a bit
+diameter inside or outside it marks the other edge of the cut, so the band
+between them is what the bit takes. An Outer cut takes only that band, not the
+whole hatched area around the part.
 
 **Stepover (%)** sets how far the bit moves over on each lap when clearing.
 

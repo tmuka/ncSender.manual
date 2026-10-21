@@ -120,8 +120,8 @@ where you wanted **Inner (clearing)**.
 In the preview the solid outline is the size you typed. For
 **Inner (perimeter)** and **Outer (part)**, a fainter dashed line a bit
 diameter inside or outside it marks the other edge of the cut, so the band
-between them is what the bit takes. An Outer cut takes only that band, not the
-whole hatched area around the part.
+between them is what the bit takes. The hatch shows what the bit removes: that
+band on an Outer cut, and the whole inside on Inner (clearing).
 
 **Stepover (%)** sets how far the bit moves over on each lap when clearing.
 

@@ -197,23 +197,47 @@ Turn on **Pattern** to cut several copies in one program, then pick a
 number of copies and the overall size as you type; drag it to turn the
 pattern.
 
+The preview draws each copy like the shape preview: the part or hole tinted,
+its edge solid, the bit's other edge dashed and the bit's path hatched. Every
+copy keeps its own outline, so you can see the stock left between them. Where
+copies overlap, the overlap is tinted yellow: holes running into each other, or
+an Outer cut eating into the next part.
+
 | Pattern Style | Layout | Fields |
 |---|---|---|
 | **Linear** | Rows and columns | **X Count**, **X Spacing**, **Y Count**, **Y Spacing**. Use a negative spacing to go the other way. |
-| **Honeycomb** | Rows shifted by half a step, like a honeycomb | Same as Linear, plus **Symmetric Ends** |
+| **Honeycomb** | Every other row shifted by half a step, like a honeycomb | Same as Linear, plus **Symmetric Ends**. **Y Count** and **Y Spacing** are row by row, shifted rows included. |
 | **Circular (Identical)** | Around a circle, every copy facing the same way | **Count**, **Radius**, **Start Angle (°)**, **Total Angle (°)** |
 | **Circular (Path Direction)** | Around a circle, each copy turned to follow the circle | **Count**, **Radius**, **Start Angle (°)**, **Total Angle (°)** |
 
 **Symmetric Ends** drops one copy from each shifted row so both ends of the
-honeycomb line up.
+honeycomb line up. A Honeycomb starts with an unshifted row, so an even
+**Y Count** ends on a shifted one. The same Y Count and Y Spacing give the same
+rows as Linear, so switching between the two only shifts every other row.
+Programs from QuickCut v0.1.17, which counted and spaced only the unshifted
+rows, load with the same layout.
 
-**Extent**: turn it on to give the distance from the first copy's centre to
-the last instead of the spacing between neighbours. The copies are spread
-evenly over it: 5 copies over 400 mm are 100 mm apart.
+The **X Spacing** and **Y Spacing** labels are menus, like Polygon's size, so
+each direction can be given its own way:
+
+| Pick | The number is |
+|---|---|
+| **Spacing** | Centre to centre between neighbouring copies. |
+| **Extent** | From the first copy's centre to the last; the copies spread evenly over it, so 5 copies over 400 mm are 100 mm apart. |
+| **Gap** (Linear and Honeycomb) | The stock left between neighbouring copies' cuts at their closest, edge to edge. On an Outer cut that's outside the bit's path. |
+
+Gap is measured on the cuts themselves, so turned shapes and rounded inside
+corners count, and QuickCut works out the spacing that leaves it. Change the
+size, the bit or the cut type and the gap stays the same. On a Honeycomb,
+**Row Gap** is to the nearest copy in the next row, so giving X Gap and Row Gap
+the same number leaves an even wall all round, for example hexagon pockets with
+a 3 mm web. As with Spacing, a negative number runs the copies the other way.
+Switching between Spacing, Extent and Gap converts the number, so the copies
+don't move, and Load restores the choice.
 
 **Angle (°)** turns Linear and Honeycomb rows, counter-clockwise from +X. At an
-angle the fields become **Count**, **Spacing**, **Rows** and **Row Spacing**,
-measured along and across the rows. **Rotate shapes** turns each copy with the
+angle the fields become **Count**, **Spacing**, **Rows** and **Row Spacing**
+(or Extent, Gap), measured along and across the rows. **Rotate shapes** turns each copy with the
 rows. Press **Measure** beside the Angle to take it from the machine (see
 [Measure an angle](#measure-an-angle)).
 
@@ -260,7 +284,9 @@ Origin, Inset, Holding Tabs and Pattern work as on the shapes. On the preview
 you can also tap an end, a corner or the middle of a long side.
 
 The **Grid** pattern, for straight slots, cuts rows and columns of lines that
-span the grid, for example a grid of grooves with the Center line cut.
+span the grid, for example a grid of grooves with the Center line cut. Its
+**Column Spacing** and **Row Spacing** labels are menus too: pick **Width** or
+**Height** to give the grid's overall size instead.
 
 To round over a stock corner, zero on the corner and cut an Arc: Radius = the
 corner radius + the bit radius, Sweep 90, Start Angle facing the corner,

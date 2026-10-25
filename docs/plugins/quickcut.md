@@ -170,10 +170,22 @@ front-left, Inset 10.
 - From a corner it moves both ways; from the middle of an edge, only across
   that edge. It doesn't apply to the centre.
 - A negative inset moves the cut outward instead.
-- Pick **Inset X / Y** in the menu on its label to set the two directions
-  separately.
 - With a pattern, it applies to the box around all the copies, so a grid can
   start a set margin in from the edges of the stock.
+
+The menu on its label picks what the inset is measured to:
+
+| Pick | The inset is measured to |
+|---|---|
+| **Edge Inset** | The edge of the cut, so it's the stock left between the cut and the corner or edge. |
+| **Center Inset** | The copies' centres, on the direction the inset is on. A row of holes then starts exactly that far in, whatever the bit: for shelf pins 37 mm in from the front and left edges, Origin front-left, Center Inset 37. |
+| **Edge Inset XY**, **Center Inset XY** | The same, with X (from a left or right origin) and Y (from a front or back origin) set separately. |
+
+The **Drill** tab starts on Center Inset, the shape tabs on Edge Inset.
+Switching converts the number so the cut doesn't move; if X and Y then differ,
+the box splits into XY. An arc slot's centre is its arc's centre, so Center
+Inset suits holes and shapes centred on themselves best. Programs saved before
+Center Inset existed load as Edge Inset, unchanged.
 
 The preview shows the inset as a short dashed line from the crosshair.
 
@@ -203,12 +215,21 @@ copy keeps its own outline, so you can see the stock left between them. Where
 copies overlap, the overlap is tinted yellow: holes running into each other, or
 an Outer cut eating into the next part.
 
+It also measures what you set, with green dashed dimension lines like the
+shape previews': X below the copies and Y to their left (along and across the
+rows when they're turned).
+- **Spacing** and **Extent** are measured between copies' centres.
+- **Overall** is measured between the outer edges.
+- **Gap** is shown as a short line across the gap where two copies come
+  closest.
+- A circular pattern draws the circle its Radius measures.
+
 | Pattern Style | Layout | Fields |
 |---|---|---|
 | **Linear** | Rows and columns | **X Count**, **X Spacing**, **Y Count**, **Y Spacing**. Use a negative spacing to go the other way. |
 | **Honeycomb** | Every other row shifted by half a step, like a honeycomb | Same as Linear, plus **Symmetric Ends**. **Y Count** and **Y Spacing** are row by row, shifted rows included. |
-| **Circular (Identical)** | Around a circle, every copy facing the same way | **Count**, **Radius**, **Start Angle (°)**, **Total Angle (°)** |
-| **Circular (Path Direction)** | Around a circle, each copy turned to follow the circle | **Count**, **Radius**, **Start Angle (°)**, **Total Angle (°)** |
+| **Circular (Identical)** | Around a circle, every copy facing the same way | **Count**, **Radius** (see below), **Start Angle (°)**, **Total Angle (°)** |
+| **Circular (Path Direction)** | Around a circle, each copy turned to follow the circle | **Count**, **Radius** (see below), **Start Angle (°)**, **Total Angle (°)** |
 
 **Symmetric Ends** drops one copy from each shifted row so both ends of the
 honeycomb line up. A Honeycomb starts with an unshifted row, so an even
@@ -223,17 +244,24 @@ each direction can be given its own way:
 | Pick | The number is |
 |---|---|
 | **Spacing** | Centre to centre between neighbouring copies. |
-| **Extent** | From the first copy's centre to the last; the copies spread evenly over it, so 5 copies over 400 mm are 100 mm apart. |
-| **Gap** (Linear and Honeycomb) | The stock left between neighbouring copies' cuts at their closest, edge to edge. On an Outer cut that's outside the bit's path. |
+| **Extent** | From the first copy's centre to the last; the copies spread evenly over it, so 5 copies over 400 mm are 100 mm apart. Suits rows of holes, which are measured to their centres. |
+| **Overall** (Linear and Honeycomb) | From the outer edge of the first copy to the outer edge of the last, so every copy fits inside it: 3 parts 100 wide with Overall 400 end up 150 apart. Suits fitting parts onto a board. |
+| **Gap** (Linear and Honeycomb) | The distance between neighbouring copies' edges at their closest. |
 
-Gap is measured on the cuts themselves, so turned shapes and rounded inside
-corners count, and QuickCut works out the spacing that leaves it. Change the
+Overall and Gap measure to the edges drawn solid on the preview: on an Inner
+or pocket cut, the edge of the cut, so Gap is the stock left between the cuts;
+on an Outer cut, the part itself, so Gap is between the parts and must be at
+least the bit diameter for the bit to pass between them. Along a Honeycomb row,
+Overall includes the shifted rows' half step unless Symmetric Ends trims them.
+
+Gap is measured on the real cut, so turned shapes and rounded inside corners
+count, and QuickCut works out the spacing that gives it. Change the
 size, the bit or the cut type and the gap stays the same. On a Honeycomb,
 **Row Gap** is to the nearest copy in the next row, so giving X Gap and Row Gap
 the same number leaves an even wall all round, for example hexagon pockets with
 a 3 mm web. As with Spacing, a negative number runs the copies the other way.
-Switching between Spacing, Extent and Gap converts the number, so the copies
-don't move, and Load restores the choice.
+Switching between Spacing, Extent, Overall and Gap converts the number, so the
+copies don't move, and Load restores the choice.
 
 **Angle (°)** turns Linear and Honeycomb rows, counter-clockwise from +X. At an
 angle the fields become **Count**, **Spacing**, **Rows** and **Row Spacing**
@@ -247,6 +275,19 @@ spread over: 360 spaces them all the way round; less puts the first and last
 copy at the ends of the arc; a negative angle runs clockwise. With **Path
 Direction**, the first copy looks like the preview and each later copy is
 turned by how far round the circle it is.
+
+The **Radius** label is a menu too:
+
+| Pick | The radius is |
+|---|---|
+| **Center Radius** | From the pattern's centre to each copy's centre. |
+| **Inside Radius** | To the nearest edge of any copy: the clear circle left in the middle, for example around a centre hole. |
+| **Outside Radius** | To the farthest edge, so the whole pattern fits in a circle that size. |
+
+Edges are the solid lines on the preview, as for Gap. Switching converts the
+number so the copies don't move. If the copies cover the centre, Inside Radius
+goes to 0 (just touching it), and an Outside Radius smaller than a copy is
+flagged.
 
 On the **Circle** tab there is a single **Circular** style, because a turned
 circle looks the same.
@@ -333,7 +374,10 @@ Every move is at the **Plunge Rate**, so **Feed Rate** is greyed out on this
 tab.
 
 With a pattern, the origin is a point of the box around all the holes, or tap
-a hole in the preview to make that hole work zero. Up to 50 × 50 holes are
+a hole in the preview to make that hole work zero. Drill starts on **Center
+Inset**, so the Inset is to the holes' centres: with Origin front-left, Center
+Inset 10 and X Spacing 32, the first hole is 10 mm in from each edge and the
+rest follow every 32 mm, whatever the bit. Up to 50 × 50 holes are
 drawn; larger patterns show the count instead.
 
 ## Planer

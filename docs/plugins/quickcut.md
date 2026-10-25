@@ -39,6 +39,9 @@ it was made with. Press **Load** at the top of the dialog, pick a program from
 File Manager › QuickCut, and QuickCut switches to its tab and fills in those
 values. Nothing is generated or run. Sharing a program file shares its setup.
 
+The list looks like File Manager's: type in the search box to narrow it, and
+each program shows its size and when it was saved, newest first.
+
 ### Help and tooltips
 
 Every field has a tip saying what it is for, shown when you hover over it with
@@ -99,6 +102,24 @@ again or press **Esc** to go back.
 On an inner cut a corner can't be tighter than the bit's radius. The preview
 shows the corner you'll actually get, with the shape as typed dashed, and the
 program notes it.
+
+### Corner Relief
+
+A square part won't sit all the way down in a pocket with rounded inside
+corners. On **Inner (perimeter)** and **Inner (clearing)** Rectangle and
+Polygon cuts, **Corner Relief**, under Cut Type, adds a short extra move at each
+inside corner so the corner is cut fully clear:
+
+| Corner Relief | What it does |
+|---|---|
+| **None** | The bit leaves rounded corners. |
+| **Dog-bone** | Goes diagonally into each corner. |
+| **T-bone** | Goes along one edge, so the notch is hidden in the end walls. A Rectangle notches along its longer edges. A Polygon notches each edge past its end, all turning the same way, like a pinwheel. |
+
+**Corner Radius** still applies. A radius smaller than the bit's radius gives
+a smaller notch. Once the radius is as big as the bit's radius, the bit already
+fits the corner, so the menu is greyed out. Holding tabs stay where they would
+be without relief, and the preview shows each notch.
 
 ![QuickCut, Circle tab](../assets/images/plugins/quickcut-circle.webp)
 
@@ -336,7 +357,7 @@ Cut a straight, clean edge on rough stock.
 - **Trim Axis**: **X-axis** or **Y-axis**, the direction the edge runs.
 - **Length**: how long the edge is.
 - **Trim Width**: how much each trim takes off the edge.
-- **Number of Trims**: how many trims to take.
+- **# of Trims**: how many trims to take.
 - **Overrun**: how far past each end to go.
 - **Cut Direction**: **Conventional**, **Climb** or **Both Ways**. Both Ways
   cuts every other trim back the other way, so there is no trip back to the
